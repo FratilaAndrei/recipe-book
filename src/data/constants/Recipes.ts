@@ -1,3 +1,4 @@
+import bolognese from "../../utils/images/bolognesePic.jpg";
 export const recipes = [
     {
       id: 1,
@@ -78,8 +79,9 @@ export const recipes = [
       fat: "6f",
       carbs: "15c",
       grams: "1 cup mixed vegetables"
-    },    {
-        id: 0,
+    },   
+    {
+        id: 9,
         name: "Oat",
         type: "Bulk",
         protein: "3p",
@@ -87,6 +89,17 @@ export const recipes = [
         fat: "6f",
         carbs: "15c",
         grams: "1 cup mixed vegetables"
-      }
+    },
+    {
+      id: 10,
+      name: "Paste Bolognese",
+      type: "Bulk",
+      protein: "30p",
+      calories: "650 kcal",
+      fat: "25f",
+      carbs: "70c",
+      grams: "400g",
+      image : bolognese,
+    }
   ];
   

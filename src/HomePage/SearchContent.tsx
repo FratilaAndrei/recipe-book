@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { recipes } from "../data/constants/Recipes";
 
 const SearchContent = () => {
@@ -9,18 +9,25 @@ const SearchContent = () => {
     setSearchResult(true);
   };
 
-  const searchingRecipe = (e: any) => {
+  const searchingRecipe = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedRecipe(e.target.value);
   };
 
   const filteredRecipe = recipes.filter((recipes) =>
     recipes.name.toLowerCase().includes(searchedRecipe.toLowerCase())
   );
-  // Facem un Filtru care ne aduce doar retetele in numele carora se regaseste ceea ce caut prin search
 
   const recipeFound = filteredRecipe.map((recipes) => {
     return (
-      <div className="flex gap-2 p-2 text-sm" key={recipes.id}>
+      <div
+        className="flex gap-2 p-2 text-sm border border-t-2 items-center"
+        key={recipes.id}
+      >
+        <img
+          src={recipes.image}
+          alt="pozaMancare"
+          className="h-10 w-8 rounded-md"
+        />
         <div className="w-1/2">{recipes.name}</div>
         <div>{recipes.calories}</div>
         <div>{recipes.protein}</div>
@@ -41,7 +48,6 @@ const SearchContent = () => {
         onChange={searchingRecipe}
       />
       {searchResult && searchedRecipe ? (
-        // searchedRecipe deoarece este inputul dupa care cautam
         <div className="bg-white h-fit rounded-b-xl">{recipeFound}</div>
       ) : (
         ""
