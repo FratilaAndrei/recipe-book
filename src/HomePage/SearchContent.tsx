@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { recipes } from "../data/constants/Recipes";
+import { recipes } from "../data/constants/constants";
 
 const SearchContent = () => {
   const [searchResult, setSearchResult] = useState(false);

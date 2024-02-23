@@ -8,7 +8,8 @@ export const recipes = [
       calories: "230 kcal",
       fat: "6f",
       carbs: "0c",
-      grams: "1 chicken breast"
+      grams: "1 chicken breast",
+      image : bolognese,
     },
     {
       id: 2,
@@ -18,7 +19,8 @@ export const recipes = [
       calories: "220 kcal",
       fat: "8f",
       carbs: "30c",
-      grams: "1 cup cooked quinoa"
+      grams: "1 cup cooked quinoa",
+      image : bolognese,
     },
     {
       id: 3,
@@ -28,7 +30,8 @@ export const recipes = [
       calories: "280 kcal",
       fat: "15f",
       carbs: "0c",
-      grams: "1 fillet (6 oz)"
+      grams: "1 fillet (6 oz)",
+      image : bolognese,
     },
     {
       id: 4,
@@ -38,7 +41,8 @@ export const recipes = [
       calories: "150 kcal",
       fat: "5f",
       carbs: "20c",
-      grams: "1 cup mixed vegetables"
+      grams: "1 cup mixed vegetables",
+      image : bolognese,
     },
     {
       id: 5,
@@ -48,7 +52,8 @@ export const recipes = [
       calories: "150 kcal",
       fat: "9f",
       carbs: "3c",
-      grams: "3 oz tofu"
+      grams: "3 oz tofu",
+      image : bolognese,
     },
     {
       id: 6,
@@ -58,7 +63,8 @@ export const recipes = [
       calories: "300 kcal",
       fat: "2f",
       carbs: "60c",
-      grams: "1 cup cooked pasta"
+      grams: "1 cup cooked pasta",
+      image : bolognese,
     },
     {
       id: 7,
@@ -68,7 +74,8 @@ export const recipes = [
       calories: "300 kcal",
       fat: "10f",
       carbs: "25c",
-      grams: "1 cup serving"
+      grams: "1 cup serving",
+      image : bolognese,
     },
     {
       id: 8,
@@ -78,7 +85,8 @@ export const recipes = [
       calories: "120 kcal",
       fat: "6f",
       carbs: "15c",
-      grams: "1 cup mixed vegetables"
+      grams: "1 cup mixed vegetables",
+      image : bolognese,
     },   
     {
         id: 9,
@@ -88,7 +96,8 @@ export const recipes = [
         calories: "120 kcal",
         fat: "6f",
         carbs: "15c",
-        grams: "1 cup mixed vegetables"
+        grams: "1 cup mixed vegetables",
+        image : bolognese,
     },
     {
       id: 10,
