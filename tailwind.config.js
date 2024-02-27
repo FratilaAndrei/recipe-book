@@ -5,6 +5,10 @@ export default {
     fontFamily: {
       "dancing-script": ["Dancing Script", "cursive"],
     },
+    backgroundImage: {
+      backgroundCarrousel: "url('/src/utils/images/backgroundCarrousel.png')",
+      tdeeBackground: "url('/src/utils/images/TdeeCalcImage.png')",
+    },
     extend: {},
   },
   plugins: [],

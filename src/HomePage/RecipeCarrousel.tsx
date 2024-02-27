@@ -13,6 +13,8 @@ interface Recipe {
   image: string;
 }
 
+const LatestRecipes = recipes.slice(-3);
+
 const RecipeCarrousel = () => {
   const responsiveOptions: CarouselResponsiveOption[] = [
     {
@@ -36,22 +38,23 @@ const RecipeCarrousel = () => {
       numScroll: 1,
     },
   ];
+
   const recipeTemplate = (recipe: Recipe) => {
     return (
-      <div className="flex justify-center">
-        <div className="w-1/2 h-[350px] bg-yellow-400 rounded-3xl">
+      <div className="flex justify-center items-center">
+        <div className="w-1/2 h-[350px]  rounded-3xl bg-gray-400  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
           <div className="h-2/3">
             <img
               src={recipe.image}
               alt=""
-              className="h-full w-full p-4 rounded-3xl"
+              className="h-full w-full p-4 rounded-[40px]"
             />
           </div>
           <div className="flex flex-col text-center gap-4">
             <div className="text-white font-bold uppercase text-2xl">
               {recipe.type}
             </div>
-            <div className="line-clamp-2 text-lg font-dancing-script px-1">
+            <div className="line-clamp-2 text-xl font-dancing-script px-1">
               {recipe.name}
             </div>
           </div>
@@ -60,9 +63,9 @@ const RecipeCarrousel = () => {
     );
   };
   return (
-    <div className="mt-20">
+    <div className="flex flex-col justify-center bg-backgroundCarrousel bg-cover h-[600px]">
       <Carousel
-        value={recipes}
+        value={LatestRecipes}
         numVisible={3}
         numScroll={3}
         responsiveOptions={responsiveOptions}

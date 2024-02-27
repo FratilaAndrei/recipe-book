@@ -1,6 +1,7 @@
 import Navbar from "../common/Navbar";
 import Hero from "./Hero";
 import RecipeCarrousel from "./RecipeCarrousel";
+import TdeeCalculator from "./components/TdeeCalculator/TdeeCalculator";
 
 const HomePage = () => {
   return (
@@ -8,6 +9,7 @@ const HomePage = () => {
       <Navbar />
       <Hero />
       <RecipeCarrousel />
+      <TdeeCalculator />
     </>
   );
 };
