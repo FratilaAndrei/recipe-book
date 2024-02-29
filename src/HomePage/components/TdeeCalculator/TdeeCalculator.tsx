@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { bodyInformationInput } from "../data/models/TdeeCalcModel";
+import React, { useState } from "react";
+import { IActivityObject } from "../data/models/ActivityObjectModel";
+import { IBodyInformationInput } from "../data/models/TdeeCalcModel";
 import BodyInformation from "./BodyInformation";
+import ActivityLevel from "./components/ActivityLevel";
 
 const TdeeCalculator = () => {
-  const [inputData, setInputData] = useState<bodyInformationInput>({
+  const [inputData, setInputData] = useState<IBodyInformationInput>({
     gender: "",
     age: null,
     height: null,
@@ -11,51 +13,78 @@ const TdeeCalculator = () => {
     activityLevel: "sedentary",
     goal: "maintain",
   });
+  const activityObject: IActivityObject[] = [
+    {
+      activityLevel: "sedentary",
+      activityLevelLabel: "Sedentary",
+      subTitle: "Spend most of the day sitting, with little to no exercise",
+    },
+    {
+      activityLevel: "active",
+      activityLevelLabel: "Active",
+      subTitle: "Light workouts 3-4 times/week",
+    },
+    {
+      activityLevel: "very_active",
+      activityLevelLabel: "Very Active",
+      subTitle: "Heavy workouts 5-7 times/week",
+    },
+    {
+      activityLevel: "extra_active",
+      activityLevelLabel: "Extra Active",
+      subTitle: "Very intense exercises daily or physical job",
+    },
+  ];
+  const goalOptions = ["Maintain", "Lose", "Gain"];
+  const handleInputChange =
+    (key: keyof IBodyInformationInput) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputData((prev) => ({
+        ...prev,
+        [key]: parseInt(e.target.value) || null,
+      }));
+    };
+  const chooseGender = (gender: IBodyInformationInput["gender"]) => {
+    setInputData((prev) => ({ ...prev, gender }));
+  };
 
-  const chooseAgeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const age = e.target.value;
-    setInputData((prev) => ({ ...prev, age: parseInt(age) }));
-  };
-  const chooseHeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const height = e.target.value;
-    setInputData((prev) => ({ ...prev, height: parseInt(height) }));
-  };
-  const chooseWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const height = e.target.value;
-    setInputData((prev) => ({ ...prev, weight: parseInt(height) }));
-  };
-
-  const chooseGender = (gender: "male" | "female") => {
-    setInputData((prev) => ({ ...prev, gender: gender }));
+  const handleActivityLevelClick = (
+    level: "sedentary" | "active" | "very_active" | "extra_active"
+  ) => {
+    setInputData((prev) => ({ ...prev, activityLevel: level }));
   };
 
   console.log(inputData);
-
   return (
-    <div className="h-screen bg-tdeeBackground bg-cover flex flex-col  gap-8 ">
+    <div className="bg-tdeeBackground bg-cover flex flex-col gap-8 text-white">
       <div className="mt-10 text-center">Calories Intake Calculator</div>
-      <div className="">
-        <div>Step1: Enter Details</div>
+      <div>
+        <div>Step 1: Enter Details</div>
         <div className="flex mt-4 w-full flex-wrap gap-3 p-4">
           <BodyInformation title="Gender" onClick={chooseGender} />
           <BodyInformation
             title="Age"
-            // value={inputData.age}
-            onChange={chooseAgeHandler}
+            onChange={handleInputChange("age")}
             placeholder="age"
           />
           <BodyInformation
             title="Height"
-            onChange={chooseHeight}
+            onChange={handleInputChange("height")}
             placeholder="cm"
           />
           <BodyInformation
             title="Weight"
-            onChange={chooseWeight}
+            onChange={handleInputChange("weight")}
             placeholder="kg"
           />
         </div>
       </div>
+      <ActivityLevel
+        object={activityObject}
+        stepTitle="Step 2: Choose Activity Level"
+        handleClick={handleActivityLevelClick}
+      />
+      <ActivityLevel stepTitle="Step 3: Choose Goal" array={goalOptions} />
     </div>
   );
 };

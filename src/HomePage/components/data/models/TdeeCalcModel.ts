@@ -1,4 +1,4 @@
-export interface bodyInformationInput {
+export interface IBodyInformationInput {
     gender: "male" | "female" | "";
     age: number | null;
     height: number | null;
