@@ -35,7 +35,9 @@ const TdeeCalculator = () => {
       subTitle: "Very intense exercises daily or physical job",
     },
   ];
+
   const goalOptions = ["Maintain", "Lose", "Gain"];
+
   const handleInputChange =
     (key: keyof IBodyInformationInput) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +46,7 @@ const TdeeCalculator = () => {
         [key]: parseInt(e.target.value) || null,
       }));
     };
+
   const chooseGender = (gender: IBodyInformationInput["gender"]) => {
     setInputData((prev) => ({ ...prev, gender }));
   };
@@ -82,6 +85,7 @@ const TdeeCalculator = () => {
         object={activityObject}
         stepTitle="Step 2: Choose Activity Level"
         handleClick={handleActivityLevelClick}
+        selectedLevel={inputData.activityLevel}
       />
       <ActivityLevel stepTitle="Step 3: Choose Goal" array={goalOptions} />
     </div>
