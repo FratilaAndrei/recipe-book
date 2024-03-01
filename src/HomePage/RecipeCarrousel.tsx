@@ -62,6 +62,7 @@ const RecipeCarrousel = () => {
       </div>
     );
   };
+
   return (
     <div className="flex flex-col justify-center bg-backgroundCarrousel bg-cover h-[600px]">
       <Carousel

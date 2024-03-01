@@ -41,7 +41,7 @@ const BodyInformation: React.FC<Props> = ({
       {title !== "Gender" && (
         <input
           type="number"
-          className="mx-4 outline-none pl-2 w-12 mt-6 rounded-lg"
+          className="mx-4 text-slate-700 outline-none pl-2 w-12 mt-6 rounded-lg"
           onChange={onChange}
           placeholder={placeholder}
           required
