@@ -5,9 +5,11 @@ interface Props {
   object?: IActivityObject[];
   array?: string[];
   handleClick?: (
-    level: "sedentary" | "active" | "very_active" | "extra_active"
+    // level: "sedentary" | "active" | "very_active" | "extra_active"
+    level: IActivityObject["activityLevel"]
   ) => void;
-  selectedLevel?: "sedentary" | "active" | "very_active" | "extra_active";
+  // selectedLevel?: "sedentary" | "active" | "very_active" | "extra_active";
+  selectedLevel?: IActivityObject["activityLevel"];
 }
 
 const ActivityLevel: React.FC<Props> = ({
@@ -39,8 +41,8 @@ const ActivityLevel: React.FC<Props> = ({
   return (
     <>
       <div className="text-center text-white text-2xl">{stepTitle}</div>
-      {activityType && <div className={``}>{activityType}</div>}
-      {array && <div className="bg-red-600">{array}</div>}
+      {activityType && <div>{activityType}</div>}
+      {!!array?.length && <div className="bg-red-600">{array}</div>}
     </>
   );
 };

@@ -54,7 +54,6 @@ const TdeeCalculator = () => {
     setInputData((prev) => ({ ...prev, activityLevel: level }));
   };
 
-  console.log(inputData);
   return (
     <div className="bg-tdeeBackground bg-cover flex flex-col gap-8 text-white">
       <div className="mt-10 text-center">Calories Intake Calculator</div>
