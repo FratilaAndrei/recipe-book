@@ -4,5 +4,6 @@ export interface IBodyInformationInput {
     height: number | null;
     weight: number | null;
     activityLevel: "sedentary" | "active" | "very_active" | "extra_active";
-    goal: "maintain" | "lose" | " gain";
+    goal: "maintain" | "lose" | "gain";
   }
+

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { IActivityObject } from "../data/models/ActivityObjectModel";
+import { IActivityObject, IGoalType } from "../data/models/ActivityObjectModel";
 import { IBodyInformationInput } from "../data/models/TdeeCalcModel";
 import BodyInformation from "./BodyInformation";
 import ActivityLevel from "./components/ActivityLevel";
+import CalorieResult from "./components/CalorieResult";
 
 const TdeeCalculator = () => {
   const [inputData, setInputData] = useState<IBodyInformationInput>({
@@ -36,7 +37,20 @@ const TdeeCalculator = () => {
     },
   ];
 
-  const goalOptions = ["Maintain", "Lose", "Gain"];
+  const goalArray: IGoalType[] = [
+    {
+      goal: "maintain",
+      goalLabel: "Maintain",
+    },
+    {
+      goal: "lose",
+      goalLabel: "Lose",
+    },
+    {
+      goal: "gain",
+      goalLabel: "Gain",
+    },
+  ];
 
   const handleInputChange =
     (key: keyof IBodyInformationInput) =>
@@ -55,6 +69,10 @@ const TdeeCalculator = () => {
     level: "sedentary" | "active" | "very_active" | "extra_active"
   ) => {
     setInputData((prev) => ({ ...prev, activityLevel: level }));
+  };
+
+  const handleGoalTypeClick = (goal: IGoalType["goal"]) => {
+    setInputData((prev) => ({ ...prev, goal }));
   };
 
   return (
@@ -87,7 +105,13 @@ const TdeeCalculator = () => {
         handleClick={handleActivityLevelClick}
         selectedLevel={inputData.activityLevel}
       />
-      <ActivityLevel stepTitle="Step 3: Choose Goal" array={goalOptions} />
+      <ActivityLevel
+        array={goalArray}
+        stepTitle="Step 3: Choose Goal"
+        handleGoal={handleGoalTypeClick}
+        selectedGoal={inputData.goal}
+      />
+      <CalorieResult inputData={inputData} />
     </div>
   );
 };
