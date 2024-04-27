@@ -13,10 +13,9 @@ const CalorieResult: React.FC<Props> = ({ inputData }) => {
     height === null ||
     weight === null
   ) {
-    return (
-      <div className="flex justify-center text-xl">Data not Sufficient</div>
-    );
+    return <div className="text-center mb-10">Data not Sufficient</div>;
   }
+
   const bmr: number =
     gender === "male"
       ? 10 * weight + 6.25 * height - 5 * age + 5
@@ -32,16 +31,22 @@ const CalorieResult: React.FC<Props> = ({ inputData }) => {
   const activityMultiplier = activityMultipliers[activityLevel];
 
   const calcResult = () => {
-    if (goal === "maintain") {
-      return bmr * activityMultiplier;
-    } else if (goal === "lose") {
-      return bmr * activityMultiplier - 500;
-    } else {
-      return bmr * activityMultiplier + 500;
+    let result;
+    switch (goal) {
+      case "maintain":
+        result = bmr * activityMultiplier;
+        break;
+      case "lose":
+        result = bmr * activityMultiplier - 500;
+        break;
+      default:
+        result = bmr * activityMultiplier + 500;
     }
+    return result;
   };
+
   return (
-    <div className="flex justify-center gap-10 text-xl">
+    <div className="flex justify-center gap-10 text-xl mb-10">
       <div>Calorie Intake:</div>
       <div>{calcResult().toFixed(0)}</div>
     </div>
