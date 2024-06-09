@@ -8,6 +8,7 @@ export default {
     backgroundImage: {
       backgroundCarrousel: "url('/src/utils/images/backgroundCarrousel.png')",
       tdeeBackground: "url('/src/utils/images/TdeeCalcImage.png')",
+      heroImg: "url('/src/utils/images/HeroImage.png')",
     },
     extend: {},
   },

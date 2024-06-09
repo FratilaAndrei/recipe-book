@@ -1,6 +1,6 @@
 const HomeFooter = () => {
   return (
-    <div className="bg-stone-800 text-white  flex items-center h-fit p-8">
+    <div className="bg-stone-800 text-white  flex items-center h-fit p-8 mt-20">
       <p className="text-center w-full italic">
         Embark on your fitness journey with a personalized blend of nutritious
         food, carefully curated to support your fitness goals. Elevate your

@@ -1,5 +1,5 @@
 import { Carousel, CarouselResponsiveOption } from "primereact/carousel";
-import { recipes } from "../data/constants/constants";
+import { recipes } from "../../data/constants/constants";
 
 interface Recipe {
   id: string;
@@ -13,13 +13,13 @@ interface Recipe {
   image: string;
 }
 
-const LatestRecipes = recipes.slice(-3);
+const LatestRecipes = recipes.slice(-5);
 
 const RecipeCarrousel = () => {
   const responsiveOptions: CarouselResponsiveOption[] = [
     {
       breakpoint: "1400px",
-      numVisible: 2,
+      numVisible: 4,
       numScroll: 1,
     },
     {
@@ -42,7 +42,7 @@ const RecipeCarrousel = () => {
   const recipeTemplate = (recipe: Recipe) => {
     return (
       <div className="flex justify-center items-center">
-        <div className="w-1/2 h-[350px]  rounded-3xl bg-gray-400  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100">
+        <div className="w-1/2 md:w-full lg:w-2/3 xl:w-full 2xl:w-2/3 md:m-6 md:h-[300px] lg:h-[325px] h-[350px] 2xl:h-[450px]  rounded-3xl bg-amber-300  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
           <div className="h-2/3">
             <img
               src={recipe.image}
@@ -64,10 +64,10 @@ const RecipeCarrousel = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center bg-backgroundCarrousel bg-cover h-[600px]">
+    <div className="flex flex-col bg-clip-padding 2xl:mt-20 backdrop-filter backdrop-blur-sm bg-opacity-0 bg-amber-300  my-4 mx-20 rounded-xl justify-center h-[600px]">
       <Carousel
         value={LatestRecipes}
-        numVisible={3}
+        numVisible={5}
         numScroll={3}
         responsiveOptions={responsiveOptions}
         circular

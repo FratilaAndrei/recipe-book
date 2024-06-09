@@ -76,11 +76,16 @@ const TdeeCalculator = () => {
   };
 
   return (
-    <div className="bg-tdeeBackground bg-cover flex flex-col gap-8 text-white">
-      <div className="mt-10 text-center">Calories Intake Calculator</div>
+    // <div className="bg-tdeeBackground bg-cover flex flex-col gap-16 text-white xl:w-1/2 xl:flex xl:m-auto">
+    <div className="flex flex-col gap-4 2xl:gap-6 bg-slate-300 2xl:my-20 rounded-2xl text-slate-600 md:w-1/3  lg:w-3/5 xl:w-2/5 2xl:w-1/3 md:flex md:m-auto  xl:gap-6 xl:my-8">
+      <div className="mt-10 text-center text-2xl">
+        Calories Intake Calculator
+      </div>
       <div>
-        <div>Step 1: Enter Details</div>
-        <div className="flex mt-4 w-full flex-wrap gap-3 p-4">
+        <div className="text-center text-slate-600 text-2xl">
+          Step 1: Enter Details
+        </div>
+        <div className="flex mt-4 w-full flex-wrap gap-3 justify-center md:gap-4 p-4 md:pt-4 xl:gap-12">
           <BodyInformation title="Gender" onClick={chooseGender} />
           <BodyInformation
             title="Age"

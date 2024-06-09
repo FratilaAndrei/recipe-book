@@ -13,7 +13,11 @@ const CalorieResult: React.FC<Props> = ({ inputData }) => {
     height === null ||
     weight === null
   ) {
-    return <div className="text-center mb-10">Data not Sufficient</div>;
+    return (
+      <div className="text-center mb-10 md:text-2xl xl:text-4xl">
+        Data not Sufficient
+      </div>
+    );
   }
 
   const bmr: number =
@@ -46,7 +50,7 @@ const CalorieResult: React.FC<Props> = ({ inputData }) => {
   };
 
   return (
-    <div className="flex justify-center gap-10 text-xl mb-10">
+    <div className="flex justify-center gap-10 text-xl md:text-2xl xl:text-4xl mb-10">
       <div>Calorie Intake:</div>
       <div>{calcResult().toFixed(0)}</div>
     </div>

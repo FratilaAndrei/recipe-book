@@ -36,8 +36,14 @@ const BodyInformation: React.FC<Props> = ({
   };
 
   return (
-    <div className="bg-gray-400 bg-opacity-10 h-32 w-[48%] text-center gap-4 rounded-xl  bg-clip-padding backdrop-filter backdrop-blur-sm  border border-gray-100">
-      <div className="text-2xl text-white">{title}</div>
+    <div className="bg-gray-900 bg-opacity-10 h-32 w-[48%] lg:w-[35%] text-center gap-4 rounded-xl md:w-3/4  bg-clip-padding backdrop-filter backdrop-blur-sm border border-gray-400">
+      <div
+        className={`text-2xl text-white ${
+          title === "Gender" ? "mt-2" : "mt-4"
+        } `}
+      >
+        {title}
+      </div>
       {title !== "Gender" && (
         <input
           type="number"
