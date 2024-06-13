@@ -42,7 +42,7 @@ const RecipeCarrousel = () => {
   const recipeTemplate = (recipe: Recipe) => {
     return (
       <div className="flex justify-center items-center">
-        <div className="w-1/2 md:w-full lg:w-2/3 xl:w-full 2xl:w-2/3 md:m-6 md:h-[300px] lg:h-[325px] h-[350px] 2xl:h-[450px]  rounded-3xl bg-amber-300  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
+        <div className="w-1/2 md:w-full lg:w-2/3 xl:w-full 2xl:w-2/3 md:m-6 md:h-[300px] lg:h-[325px] h-[350px] 2xl:h-[450px] rounded-3xl bg-amber-300 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
           <div className="h-2/3">
             <img
               src={recipe.image}

@@ -12,8 +12,11 @@ const Hero = () => {
           <div className="lg:text-2xl">We got the perfect recipes for you</div>
         </div>
       </div>
-      {/* <RecipeCarrousel /> */}
-      <SearchContent />
+      <SearchContent
+        position="top-96 absolute 2xl:top-[400px] mt-4 w-3/4 flex justify-center items-center lg:w-full flex-col"
+        inputWidth="2xl:w-1/3 lg:w-1/2"
+        recipeFilterDropdown={true}
+      />
     </div>
   );
 };

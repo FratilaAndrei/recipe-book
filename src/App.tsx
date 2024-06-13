@@ -1,3 +1,6 @@
+import "primeicons/primeicons.css";
+import "primereact/resources/primereact.min.css";
+import "primereact/resources/themes/saga-blue/theme.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "./HomePage/Home.page";
 import {

@@ -1,7 +1,21 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { recipes } from "../../data/constants/constants";
 
-const SearchContent = () => {
+interface Props {
+  position: string;
+  inputWidth: string;
+  recipeFilterDropdown: boolean;
+  searchQuery?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchContent: FC<Props> = ({
+  position,
+  inputWidth,
+  recipeFilterDropdown,
+  searchQuery,
+  onChange,
+}) => {
   const [searchResult, setSearchResult] = useState(false);
   const [searchedRecipe, setSelectedRecipe] = useState("");
 
@@ -16,8 +30,6 @@ const SearchContent = () => {
   const filteredRecipe = recipes.filter((recipes) =>
     recipes.name.toLowerCase().includes(searchedRecipe.toLowerCase())
   );
-
-  const searchBarClassName = "2xl:w-1/3 lg:w-1/2";
 
   const recipeFound = filteredRecipe.map((recipes) => {
     return (
@@ -40,19 +52,18 @@ const SearchContent = () => {
   });
 
   return (
-    <div className="absolute top-96 2xl:top-[400px] mt-4 w-3/4 flex justify-center items-center lg:w-full flex-col">
+    <div className={`${position}`}>
       <input
         type="text"
-        className={`h-8 2xl:h-10 outline-none text-black ${searchBarClassName} ${
+        className={`h-8 2xl:h-10 outline-none text-black ${inputWidth} ${
           searchedRecipe ? "rounded-none rounded-t-xl" : "rounded-xl"
         }  pl-4`}
         onClick={isSearching}
-        onChange={searchingRecipe}
+        value={searchQuery}
+        onChange={recipeFilterDropdown ? searchingRecipe : onChange}
       />
       {searchResult && searchedRecipe ? (
-        <div
-          className={`bg-white h-fit w-1/3 rounded-b-xl ${searchBarClassName}`}
-        >
+        <div className={`bg-white h-fit rounded-b-xl ${inputWidth}`}>
           {recipeFound}
         </div>
       ) : (

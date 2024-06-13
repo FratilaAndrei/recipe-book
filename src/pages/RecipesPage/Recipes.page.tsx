@@ -1,11 +1,11 @@
 import Navbar from "../../common/Navbar";
-import RecipesCategorySelection from "./components/RecipesCategorySelection";
+import RecipesContainer from "./components/RecipesContainer";
 
 const RecipesPage = () => {
   return (
-    <div className="">
+    <div className="bg-tdeeBackground bg-contain w-full h-full">
       <Navbar />
-      <RecipesCategorySelection />
+      <RecipesContainer />
     </div>
   );
 };
