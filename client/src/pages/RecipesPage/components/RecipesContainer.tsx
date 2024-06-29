@@ -1,11 +1,17 @@
+import axios from "axios";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
-import { ChangeEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import SearchContent from "../../../HomePage/components/SearchContent";
 import { IRecipe } from "../../../common/data/RecipeModel";
-import { recipes } from "../../../data/constants/constants";
-import FavoriteItem from "../../FavoritesPage/components/FavoriteItem";
+import BolognesePic from "../../../utils/images/bolognesePic.jpg";
 import RecipeForm from "./RecipeForm";
 
 interface filterOptions {
@@ -13,15 +19,12 @@ interface filterOptions {
 }
 
 const RecipesContainer = () => {
-  const [recipesList, setRecipesList] = useState(recipes);
+  const [recipesList, setRecipesList] = useState<IRecipe[]>([]);
+  const [filteredRecipes, setFilteredRecipes] = useState<IRecipe[]>([]);
   const [selectedFilterOptions, setFilterOption] =
     useState<filterOptions | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [openForm, setOpenForm] = useState(false);
-
-  const changeFormVisibility = () => {
-    setOpenForm((prev) => !prev);
-  };
 
   const filterOptionsData: filterOptions[] = [
     { filter: "Bulk" },
@@ -30,33 +33,9 @@ const RecipesContainer = () => {
     { filter: "Calories Descending" },
   ];
 
-  useEffect(() => {
-    const filterRecipes = () => {
-      let filteredRecipes = [...recipes];
-
-      if (selectedFilterOptions) {
-        if (selectedFilterOptions.filter === "Calories Ascending") {
-          filteredRecipes.sort((a, b) => a.calories - b.calories);
-        } else if (selectedFilterOptions.filter === "Calories Descending") {
-          filteredRecipes.sort((a, b) => b.calories - a.calories);
-        } else {
-          filteredRecipes = recipes.filter(
-            (recipe) => recipe.type === selectedFilterOptions.filter
-          );
-        }
-      }
-
-      if (searchQuery) {
-        filteredRecipes = filteredRecipes.filter((recipe) =>
-          recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      }
-
-      setRecipesList(filteredRecipes);
-    };
-
-    filterRecipes();
-  }, [selectedFilterOptions, searchQuery]);
+  const changeFormVisibility = () => {
+    setOpenForm((prev) => !prev);
+  };
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -68,7 +47,66 @@ const RecipesContainer = () => {
     setRecipesList([...recipesList, recipe]);
   };
 
-  const recipeTemplate = recipesList.map((recipe: IRecipe) => {
+  const setDataFromBackend = async () => {
+    const res = await axios<IRecipe[]>("http://localhost:5288/api/recipes", {
+      method: "GET",
+      withCredentials: false,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "x-www-form-urlencoded",
+      },
+    });
+
+    const data = res.data;
+
+    // Add image to backend data since there's no saved image there
+    const mappedData = data.map((data) => {
+      return {
+        ...data,
+        image: BolognesePic,
+      };
+    });
+
+    setRecipesList(mappedData ?? []);
+  };
+
+  const filterRecipes = useCallback(() => {
+    let filtered = [...recipesList];
+
+    if (selectedFilterOptions) {
+      if (selectedFilterOptions.filter === "Calories Ascending") {
+        filtered.sort((a, b) => a.calories - b.calories);
+      } else if (selectedFilterOptions.filter === "Calories Descending") {
+        filtered.sort((a, b) => b.calories - a.calories);
+      } else {
+        filtered = recipesList.filter((recipe) => {
+          return recipe.type === selectedFilterOptions.filter;
+        });
+      }
+    }
+
+    if (searchQuery) {
+      filtered = recipesList.filter((recipe) =>
+        recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredRecipes(filtered);
+  }, [recipesList, searchQuery, selectedFilterOptions]);
+
+  useEffect(() => {
+    filterRecipes();
+  }, [selectedFilterOptions, searchQuery, filterRecipes]);
+
+  useLayoutEffect(() => {
+    setDataFromBackend();
+  }, []);
+
+  useEffect(() => {
+    setFilteredRecipes(recipesList);
+  }, [recipesList]);
+
+  const recipeTemplate = filteredRecipes.map((recipe: IRecipe) => {
     return (
       <Card key={recipe.id} className="w-[30%] relative">
         <div
@@ -92,7 +130,7 @@ const RecipesContainer = () => {
               <div>{recipe.protein}</div>
               <div>{recipe.carbs}</div>
               <div>{recipe.fat}</div>
-              <FavoriteItem />
+              {/* <FavoriteItem /> */}
             </div>
           </div>
           <div></div>

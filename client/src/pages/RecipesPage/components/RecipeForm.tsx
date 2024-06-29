@@ -112,6 +112,14 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
             setValue({ ...value, calories: e.target.value })
           }
         />
+        <InputText
+          value={value.type}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setValue({ ...value, type: e.target.value })
+          }
+          placeholder="Recipe Type"
+          className={`${inputClass}`}
+        />
         <div onClick={recipeAdded} className="bg-blue-400 px-6 py-2 rounded-lg">
           Button
         </div>
