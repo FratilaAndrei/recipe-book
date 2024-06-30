@@ -1,20 +1,14 @@
-import axios from "axios";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
-import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useLayoutEffect, useState } from "react";
 import SearchContent from "../../../HomePage/components/SearchContent";
 import { IRecipe } from "../../../common/data/RecipeModel";
-import BolognesePic from "../../../utils/images/bolognesePic.jpg";
+import { getRecipesFromBackend } from "../../../common/services/recipes.service";
+import FavoriteItem from "../../FavoritesPage/components/FavoriteItem";
 import RecipeForm from "./RecipeForm";
 
-interface filterOptions {
+interface IFilterOptions {
   filter: string;
 }
 
@@ -22,15 +16,16 @@ const RecipesContainer = () => {
   const [recipesList, setRecipesList] = useState<IRecipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<IRecipe[]>([]);
   const [selectedFilterOptions, setFilterOption] =
-    useState<filterOptions | null>(null);
+    useState<IFilterOptions | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [openForm, setOpenForm] = useState(false);
 
-  const filterOptionsData: filterOptions[] = [
+  const filterOptionsData: IFilterOptions[] = [
     { filter: "Bulk" },
     { filter: "Cut" },
     { filter: "Calories Ascending" },
     { filter: "Calories Descending" },
+    { filter: "Default" },
   ];
 
   const changeFormVisibility = () => {
@@ -42,69 +37,44 @@ const RecipesContainer = () => {
     handleSearchChange(e);
   };
 
-  const handleRecipeAdd = (recipe: IRecipe) => {
-    // Update the list of recipes with the new recipe
-    setRecipesList([...recipesList, recipe]);
-  };
-
-  const setDataFromBackend = async () => {
-    const res = await axios<IRecipe[]>("http://localhost:5288/api/recipes", {
-      method: "GET",
-      withCredentials: false,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "x-www-form-urlencoded",
-      },
-    });
-
-    const data = res.data;
-
-    // Add image to backend data since there's no saved image there
-    const mappedData = data.map((data) => {
-      return {
-        ...data,
-        image: BolognesePic,
-      };
-    });
-
-    setRecipesList(mappedData ?? []);
-  };
-
-  const filterRecipes = useCallback(() => {
-    let filtered = [...recipesList];
+  const filterRecipes = () => {
+    let filtered = [...filteredRecipes];
+    const recipes = [...recipesList];
 
     if (selectedFilterOptions) {
       if (selectedFilterOptions.filter === "Calories Ascending") {
-        filtered.sort((a, b) => a.calories - b.calories);
+        filtered = recipes.sort((a, b) => a.calories - b.calories);
       } else if (selectedFilterOptions.filter === "Calories Descending") {
-        filtered.sort((a, b) => b.calories - a.calories);
+        filtered = recipes.sort((a, b) => b.calories - a.calories);
+      } else if (selectedFilterOptions.filter === "Default") {
+        filtered = recipes;
       } else {
         filtered = recipesList.filter((recipe) => {
           return recipe.type === selectedFilterOptions.filter;
         });
       }
-    }
-
-    if (searchQuery) {
+    } else if (searchQuery) {
       filtered = recipesList.filter((recipe) =>
         recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
+    } else {
+      filtered = recipesList;
     }
 
     setFilteredRecipes(filtered);
-  }, [recipesList, searchQuery, selectedFilterOptions]);
+  };
 
   useEffect(() => {
     filterRecipes();
-  }, [selectedFilterOptions, searchQuery, filterRecipes]);
-
-  useLayoutEffect(() => {
-    setDataFromBackend();
-  }, []);
+  }, [selectedFilterOptions, searchQuery]);
 
   useEffect(() => {
     setFilteredRecipes(recipesList);
   }, [recipesList]);
+
+  useLayoutEffect(() => {
+    getRecipesFromBackend().then((data) => setRecipesList(data));
+  }, []);
 
   const recipeTemplate = filteredRecipes.map((recipe: IRecipe) => {
     return (
@@ -130,7 +100,11 @@ const RecipesContainer = () => {
               <div>{recipe.protein}</div>
               <div>{recipe.carbs}</div>
               <div>{recipe.fat}</div>
-              {/* <FavoriteItem /> */}
+              <FavoriteItem
+                isFavored={recipe.isFavored}
+                id={recipe.id}
+                setRecipesList={setRecipesList}
+              />
             </div>
           </div>
           <div></div>
@@ -160,14 +134,16 @@ const RecipesContainer = () => {
           recipeFilterDropdown={false}
         />
         <Button
-          label="Add"
-          className="bg-green-500 px-6 text-white"
+          label={openForm ? "Close" : "Add Recipe"}
+          className={`${
+            openForm ? "bg-red-500" : "bg-green-500"
+          } px-6 text-white`}
           onClick={changeFormVisibility}
         />
         {openForm && (
           <RecipeForm
-            onClick={changeFormVisibility}
-            onRecipeAdd={handleRecipeAdd}
+            closeForm={() => setOpenForm(false)}
+            setRecipesList={setRecipesList}
           />
         )}
       </div>

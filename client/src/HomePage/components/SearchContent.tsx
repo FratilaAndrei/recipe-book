@@ -1,5 +1,6 @@
-import { ChangeEvent, FC, useState } from "react";
-import { recipes } from "../../data/constants/constants";
+import { ChangeEvent, FC, useLayoutEffect, useState } from "react";
+import { IRecipe } from "../../common/data/RecipeModel";
+import { getRecipesFromBackend } from "../../common/services/recipes.service";
 
 interface Props {
   position: string;
@@ -18,16 +19,9 @@ const SearchContent: FC<Props> = ({
 }) => {
   const [searchResult, setSearchResult] = useState(false);
   const [searchedRecipe, setSelectedRecipe] = useState("");
+  const [recipesList, setRecipesList] = useState<IRecipe[]>([]);
 
-  const isSearching = () => {
-    setSearchResult(true);
-  };
-
-  const searchingRecipe = (e: ChangeEvent<HTMLInputElement>) => {
-    setSelectedRecipe(e.target.value);
-  };
-
-  const filteredRecipe = recipes.filter((recipes) =>
+  const filteredRecipe = recipesList.filter((recipes) =>
     recipes.name.toLowerCase().includes(searchedRecipe.toLowerCase())
   );
 
@@ -51,8 +45,20 @@ const SearchContent: FC<Props> = ({
     );
   });
 
+  const isSearching = () => {
+    setSearchResult(true);
+  };
+
+  const searchingRecipe = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelectedRecipe(e.target.value);
+  };
+
+  useLayoutEffect(() => {
+    getRecipesFromBackend().then((data) => setRecipesList(data));
+  }, []);
+
   return (
-    <div className={`${position}`}>
+    <div className={position}>
       <input
         type="text"
         className={`h-8 2xl:h-10 outline-none text-black ${inputWidth} ${

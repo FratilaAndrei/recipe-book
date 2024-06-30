@@ -1,5 +1,5 @@
 export interface IRecipe {
-    id: number,
+    id: string,
     name: string,
     type: string,
     protein: string,
@@ -8,5 +8,16 @@ export interface IRecipe {
     carbs: string,
     grams: string,
     image : string,
+    isFavored : boolean,
+}
+
+export type RecipePostDTO = {
+    name: string,
+    type: string,
+    protein: number,
+    calories: number,
+    fat: number,
+    carbs: number,
+    grams: number,
     isFavored : boolean,
 }

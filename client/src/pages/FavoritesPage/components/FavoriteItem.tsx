@@ -1,16 +1,33 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
+import { BiHeart } from "react-icons/bi";
+import { IRecipe } from "../../../common/data/RecipeModel";
+import {
+  getRecipesFromBackend,
+  toggleFavoriteRecipe,
+} from "../../../common/services/recipes.service";
 
 interface Props {
-  onToggleFavorite?: (id: number) => void;
+  id: string;
+  isFavored: boolean;
+  setRecipesList: Dispatch<SetStateAction<IRecipe[]>>;
 }
 
-const FavoriteItem: FC<Props> = ({ onToggleFavorite }) => {
+const FavoriteItem: FC<Props> = ({ id, setRecipesList, isFavored }) => {
+  const handleFavorite = async () => {
+    await toggleFavoriteRecipe(id);
+
+    // this refetches data
+    getRecipesFromBackend().then((data) => setRecipesList(data));
+  };
+
   return (
     <div
-      className="bg-red-500 cursor-pointer p-2 rounded-full"
-      onClick={() => onToggleFavorite}
+      className={`cursor-pointer text-2xl rounded-full ${
+        isFavored ? "text-green-500" : "text-red-500"
+      }`}
+      onClick={handleFavorite}
     >
-      Fav
+      <BiHeart />
     </div>
   );
 };

@@ -17,4 +17,16 @@ namespace api.Models
         public int Grams { get; set; }
         public bool isFavored { get; set; }
     }
+
+    public class RecipePostDTO
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public int Calories { get; set; }
+        public int Protein { get; set; }
+        public int Fat { get; set; }
+        public int Carbs { get; set; }
+        public int Grams { get; set; }
+        public bool isFavored { get; set; }
+    }
 }

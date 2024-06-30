@@ -1,21 +1,11 @@
 import { Carousel, CarouselResponsiveOption } from "primereact/carousel";
-import { recipes } from "../../data/constants/constants";
-
-interface Recipe {
-  id: string;
-  name: string;
-  type: string;
-  protein: string;
-  calories: string;
-  fat: string;
-  carbs: string;
-  grams: string;
-  image: string;
-}
-
-const LatestRecipes = recipes.slice(-5);
+import { useLayoutEffect, useState } from "react";
+import { IRecipe } from "../../common/data/RecipeModel";
+import { getRecipesFromBackend } from "../../common/services/recipes.service";
 
 const RecipeCarrousel = () => {
+  const [recipes, setRecipes] = useState<IRecipe[]>([]);
+
   const responsiveOptions: CarouselResponsiveOption[] = [
     {
       breakpoint: "1400px",
@@ -39,7 +29,7 @@ const RecipeCarrousel = () => {
     },
   ];
 
-  const recipeTemplate = (recipe: Recipe) => {
+  const recipeTemplate = (recipe: IRecipe) => {
     return (
       <div className="flex justify-center items-center">
         <div className="w-1/2 md:w-full lg:w-2/3 xl:w-full 2xl:w-2/3 md:m-6 md:h-[300px] lg:h-[325px] h-[350px] 2xl:h-[450px] rounded-3xl bg-amber-300 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-gray-100">
@@ -63,10 +53,16 @@ const RecipeCarrousel = () => {
     );
   };
 
+  const lastRecipes = recipes.slice(-5);
+
+  useLayoutEffect(() => {
+    getRecipesFromBackend().then((data) => setRecipes(data));
+  }, []);
+
   return (
     <div className="flex flex-col bg-clip-padding 2xl:mt-20 backdrop-filter backdrop-blur-sm bg-opacity-0 bg-amber-300  my-4 mx-20 rounded-xl justify-center h-[600px]">
       <Carousel
-        value={LatestRecipes}
+        value={lastRecipes}
         numVisible={5}
         numScroll={3}
         responsiveOptions={responsiveOptions}

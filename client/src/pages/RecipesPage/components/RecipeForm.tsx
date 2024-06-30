@@ -1,14 +1,17 @@
-import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { FC, useState } from "react";
-import { IRecipe } from "../../../common/data/RecipeModel";
+import { Dispatch, FC, SetStateAction, useState } from "react";
+import { IRecipe, RecipePostDTO } from "../../../common/data/RecipeModel";
+import {
+  addRecipe,
+  getRecipesFromBackend,
+} from "../../../common/services/recipes.service";
 interface Props {
-  onClick: () => void;
-  onRecipeAdd: (recipe: IRecipe) => void;
+  setRecipesList: Dispatch<SetStateAction<IRecipe[]>>;
+  closeForm: () => void;
 }
-const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
+const RecipeForm: FC<Props> = ({ setRecipesList, closeForm }) => {
   const [value, setValue] = useState<IRecipe>({
-    id: 0,
+    id: "",
     name: "",
     type: "",
     protein: "",
@@ -16,29 +19,12 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
     fat: "",
     carbs: "",
     grams: "",
-    image: "",
     isFavored: false,
+    image: "",
   });
   const inputClass = "pl-4 py-2";
 
-  //   const showRecipeAdded = () => {
-  //     setValue({
-  //       id: 20,
-  //       name: value.name,
-  //       type: value.type,
-  //       protein: value.protein,
-  //       calories: value.calories,
-  //       fat: value.fat,
-  //       carbs: value.carbs,
-  //       grams: value.grams,
-  //       image: value.image,
-  //     });
-  //     console.log(value);
-  //   };
-
   const recipeAdded = () => {
-    // Pass the recipe object to the parent component
-
     if (
       !value.name ||
       !value.calories ||
@@ -49,13 +35,30 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
     )
       return;
 
-    onRecipeAdd(value);
-    console.log(value);
+    handleAddRecipe({
+      calories: +value.calories,
+      carbs: parseInt(value.carbs),
+      fat: parseInt(value.fat),
+      grams: parseInt(value.grams),
+      name: value.name,
+      protein: parseInt(value.protein),
+      type: value.type,
+      isFavored: false,
+    });
+  };
+
+  const handleAddRecipe = async (recipeValues: RecipePostDTO) => {
+    await addRecipe(recipeValues);
+
+    getRecipesFromBackend().then((data) => {
+      closeForm();
+
+      setRecipesList(data);
+    });
   };
 
   return (
     <form className="absolute card z-50 w-1/2 h-2/3 top-1/2 left-0 -translate-y-1/2 translate-x-1/2 bg-slate-200 ">
-      <Button label="Close" className="bg-red-500 m-4 p-2" onClick={onClick} />
       <div className="flex flex-col m-auto w-1/2 gap-4 justify-center items-center">
         <InputText
           value={value.name}
@@ -67,6 +70,8 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
         />
         <InputText
           keyfilter="int"
+          type="number"
+          min={0}
           placeholder="Grams per Portion"
           className={`${inputClass}`}
           value={value.grams}
@@ -77,6 +82,8 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
         <div className="flex gap-2">
           <InputText
             keyfilter="int"
+            type="number"
+            min={0}
             placeholder="Protein Count"
             className={`${inputClass}`}
             value={value.protein}
@@ -86,6 +93,8 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
           />
           <InputText
             keyfilter="int"
+            type="number"
+            min={0}
             placeholder="Carbs Count"
             className={`${inputClass}`}
             value={value.carbs}
@@ -95,6 +104,8 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
           />
           <InputText
             keyfilter="int"
+            type="number"
+            min={0}
             placeholder="Fat Count"
             className="pl-4"
             value={value.fat}
@@ -104,6 +115,8 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
           />
         </div>
         <InputText
+          type="number"
+          min={0}
           keyfilter="int"
           placeholder="Calorie Count"
           className={`${inputClass}`}
@@ -120,8 +133,11 @@ const RecipeForm: FC<Props> = ({ onClick, onRecipeAdd }) => {
           placeholder="Recipe Type"
           className={`${inputClass}`}
         />
-        <div onClick={recipeAdded} className="bg-blue-400 px-6 py-2 rounded-lg">
-          Button
+        <div
+          onClick={recipeAdded}
+          className="bg-green-400 px-6 py-2 rounded-lg cursor-pointer text-white font-medium"
+        >
+          Add Recipe
         </div>
       </div>
     </form>
